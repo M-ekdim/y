@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Rose with Panda</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background:
+                radial-gradient(circle at top, #2d0b3f 0%, #120014 45%, #050005 100%);
+            perspective: 1800px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background Stars */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image:
+                radial-gradient(rgba(255, 255, 255, 0.7) 1px, transparent 1px);
+            background-size: 55px 55px;
+            opacity: 0.12;
+            animation: stars 35s linear infinite;
+        }
+
+        @keyframes stars {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-300px);
+            }
+        }
+
+        /* Scene */
+        .scene {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+            animation: floatScene 5s ease-in-out infinite;
+        }
+
+        @keyframes floatScene {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* Glow */
+        .glow {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle,
+                    rgba(255, 0, 90, 0.35),
+                    transparent 70%);
+            filter: blur(45px);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+        }
+
+        /* ======================
+   ROSE
+====================== */
+
+        .rose {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            transform-style: preserve-3d;
+            animation: rotateRose 16s linear infinite;
+        }
+
+        @keyframes rotateRose {
+            from {
+                transform: rotateX(12deg) rotateY(0deg);
+            }
+
+            to {
+                transform: rotateX(12deg) rotateY(360deg);
+            }
+        }
+
+        /* Petals */
+        .petal {
+            position: absolute;
+            width: 120px;
+            height: 160px;
+            left: 90px;
+            top: 50px;
+            border-radius: 60% 60% 55% 55%;
+            background:
+                linear-gradient(145deg, #ff0f5b, #ff5f91, #b3003c);
+            box-shadow:
+                0 0 25px rgba(255, 20, 90, 0.5),
+                inset -10px -10px 20px rgba(255, 255, 255, 0.15);
+            transform-origin: center bottom;
+        }
+
+        .p1 {
+            transform: rotateY(0deg) translateZ(70px) rotateX(18deg);
+        }
+
+        .p2 {
+            transform: rotateY(45deg) translateZ(70px) rotateX(18deg);
+        }
+
+        .p3 {
+            transform: rotateY(90deg) translateZ(70px) rotateX(18deg);
+        }
+
+        .p4 {
+            transform: rotateY(135deg) translateZ(70px) rotateX(18deg);
+        }
+
+        .p5 {
+            transform: rotateY(180deg) translateZ(70px) rotateX(18deg);
+        }
+
+        .p6 {
+            transform: rotateY(225deg) translateZ(70px) rotateX(18deg);
+        }
+
+        .p7 {
+            transform: rotateY(270deg) translateZ(70px) rotateX(18deg);
+        }
+
+        .p8 {
+            transform: rotateY(315deg) translateZ(70px) rotateX(18deg);
+        }
+
+        /* Inner petals */
+        .inner {
+            width: 90px;
+            height: 130px;
+            left: 105px;
+            top: 75px;
+            background:
+                linear-gradient(145deg, #ff7aa5, #ff0055, #7a0027);
+        }
+
+        .i1 {
+            transform: rotateY(0deg) translateZ(35px) rotateX(15deg);
+        }
+
+        .i2 {
+            transform: rotateY(60deg) translateZ(35px) rotateX(15deg);
+        }
+
+        .i3 {
+            transform: rotateY(120deg) translateZ(35px) rotateX(15deg);
+        }
+
+        .i4 {
+            transform: rotateY(180deg) translateZ(35px) rotateX(15deg);
+        }
+
+        .i5 {
+            transform: rotateY(240deg) translateZ(35px) rotateX(15deg);
+        }
+
+        .i6 {
+            transform: rotateY(300deg) translateZ(35px) rotateX(15deg);
+        }
+
+        /* Rose Center */
+        .core {
+            position: absolute;
+            width: 65px;
+            height: 65px;
+            background:
+                radial-gradient(circle, #ffb3c8, #ff0055);
+            border-radius: 50%;
+            left: 118px;
+            top: 115px;
+            transform: translateZ(60px);
+            box-shadow:
+                0 0 25px rgba(255, 0, 80, 0.8);
+        }
+
+        /* Stem */
+        .stem {
+            position: absolute;
+            width: 18px;
+            height: 260px;
+            background:
+                linear-gradient(to bottom, #34ff87, #0d6e34);
+            left: 141px;
+            top: 190px;
+            border-radius: 20px;
+        }
+
+        /* Leaves */
+        .leaf {
+            position: absolute;
+            width: 95px;
+            height: 50px;
+            background:
+                linear-gradient(to right, #2dff88, #08753b);
+            border-radius: 100px 0;
+        }
+
+        .left-leaf {
+            left: 60px;
+            top: 300px;
+            transform: rotate(-35deg);
+        }
+
+        .right-leaf {
+            left: 145px;
+            top: 355px;
+            transform: rotate(145deg);
+        }
+
+        /* ======================
+   HEART
+====================== */
+
+        .heart {
+            position: absolute;
+            top: 40px;
+            right: 55px;
+            width: 30px;
+            height: 30px;
+            background: #ff2f70;
+            transform: rotate(-45deg);
+            animation: heartBeat 1.5s infinite;
+            box-shadow: 0 0 25px rgba(255, 50, 120, 0.8);
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #ff2f70;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -15px;
+        }
+
+        .heart::after {
+            left: 15px;
+        }
+
+        @keyframes heartBeat {
+
+            0%,
+            100% {
+                transform: rotate(-45deg) scale(1);
+            }
+
+            50% {
+                transform: rotate(-45deg) scale(1.2);
+            }
+        }
+
+        /* ======================
+   PANDA
+====================== */
+
+        .panda {
+            position: absolute;
+            top: 25px;
+            left: 35px;
+            width: 120px;
+            height: 120px;
+            animation: pandaFloat 3s ease-in-out infinite;
+            z-index: 20;
+        }
+
+        @keyframes pandaFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .panda-head {
+            position: relative;
+            width: 100px;
+            height: 95px;
+            background: white;
+            border-radius: 50%;
+            margin: auto;
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Ears */
+        .panda-ear {
+            position: absolute;
+            width: 38px;
+            height: 38px;
+            background: #111;
+            border-radius: 50%;
+            top: -10px;
+            z-index: -1;
+        }
+
+        .panda-ear.left {
+            left: 0;
+        }
+
+        .panda-ear.right {
+            right: 0;
+        }
+
+        /* Eye patches */
+        .eye-patch {
+            position: absolute;
+            width: 28px;
+            height: 36px;
+            background: #111;
+            border-radius: 50%;
+            top: 28px;
+        }
+
+        .eye-patch.left {
+            left: 18px;
+            transform: rotate(18deg);
+        }
+
+        .eye-patch.right {
+            right: 18px;
+            transform: rotate(-18deg);
+        }
+
+        /* Eyes */
+        .eye {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            top: 11px;
+            left: 8px;
+        }
+
+        .eye::after {
+            content: "";
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #111;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+        }
+
+        /* Nose */
+        .panda-nose {
+            position: absolute;
+            width: 16px;
+            height: 12px;
+            background: #111;
+            border-radius: 50%;
+            left: 42px;
+            top: 56px;
+        }
+
+        /* Mouth */
+        .mouth {
+            position: absolute;
+            width: 30px;
+            height: 18px;
+            border-bottom: 3px solid #111;
+            border-radius: 0 0 30px 30px;
+            left: 35px;
+            top: 65px;
+        }
+
+        /* Blush */
+        .blush {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ffb6c1;
+            border-radius: 50%;
+            opacity: 0.7;
+            top: 62px;
+        }
+
+        .blush.left {
+            left: 18px;
+        }
+
+        .blush.right {
+            right: 18px;
+        }
+
+        /* ======================
+   TEXT
+====================== */
+
+        .message {
+            position: absolute;
+            bottom: 20px;
+            right: 25px;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+
+            0%,
+            100% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Mobile */
+        @media(max-width:600px) {
+            .scene {
+                transform: scale(0.72);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="scene">
+
+        <div class="glow"></div>
+
+        <!-- PANDA -->
+        <div class="panda">
+
+            <div class="panda-head">
+
+                <div class="panda-ear left"></div>
+                <div class="panda-ear right"></div>
+
+                <div class="eye-patch left">
+                    <div class="eye"></div>
+                </div>
+
+                <div class="eye-patch right">
+                    <div class="eye"></div>
+                </div>
+
+                <div class="panda-nose"></div>
+
+                <div class="mouth"></div>
+
+                <div class="blush left"></div>
+                <div class="blush right"></div>
+
+            </div>
+
+        </div>
+
+        <!-- ROSE -->
+        <div class="rose">
+
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+            <div class="petal p7"></div>
+            <div class="petal p8"></div>
+
+            <div class="petal inner i1"></div>
+            <div class="petal inner i2"></div>
+            <div class="petal inner i3"></div>
+            <div class="petal inner i4"></div>
+            <div class="petal inner i5"></div>
+            <div class="petal inner i6"></div>
+
+            <div class="core"></div>
+
+            <div class="stem"></div>
+
+            <div class="leaf left-leaf"></div>
+            <div class="leaf right-leaf"></div>
+
+        </div>
+
+        <!-- HEART -->
+        <div class="heart"></div>
+
+        <!-- TEXT -->
+        <div class="message">
+            To Bekiye😁
+        </div>
+
+    </div>
+
+</body>
+
+</html>
